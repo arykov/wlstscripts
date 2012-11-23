@@ -3,7 +3,8 @@ from java.io import *
 from java.util.concurrent import *
 import jarray
 
-#copy files from src directory to dest directory. create whatever needed along the way.
+# start WebLogic server using start script in domainDir
+# and wait for it to come up up within timeOut
 def startWebLogic(domainDir, timeOut=300):
   pb = ProcessBuilder(jarray.array(["cmd", "/c", "startWebLogic.cmd"], String))
   pb.directory(File(domainDir))
