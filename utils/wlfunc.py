@@ -6,7 +6,10 @@ import jarray
 # start WebLogic server using start script in domainDir
 # and wait for it to come up up within timeOut
 def startWebLogic(domainDir, timeOut=300):
-  pb = ProcessBuilder(jarray.array(["cmd", "/c", "startWebLogic.cmd"], String))
+  if isWindows(): 
+    pb = ProcessBuilder(jarray.array(["cmd", "/c", "startWebLogic.cmd"], String))
+  else:
+    pb = ProcessBuilder(jarray.array(["sh", "startWebLogic.sh"], String)) 
   pb.directory(File(domainDir))
   pb.redirectErrorStream(Boolean.TRUE);
   p = pb.start()
@@ -46,7 +49,9 @@ def waitFor(process, timeOut):
     except:
       pass
       
-  
+
+def isWindows():
+  return 'Windows' in System.getProperty('os.name')
 
 class ProcessMonitor(Callable):
   def __init__(self, process, timeOut):
@@ -73,10 +78,3 @@ class ProcessMonitor(Callable):
         str = reader.readLine()
     except Exception, e:
       raise  RuntimeException(e)
-
-
-  
-  
-  
-  
-  
